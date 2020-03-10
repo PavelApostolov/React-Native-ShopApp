@@ -1,4 +1,4 @@
-# React-Native/MealsApp
+# Simple Shop Application
 
 React native app with React navigation 4 and Redux
 
