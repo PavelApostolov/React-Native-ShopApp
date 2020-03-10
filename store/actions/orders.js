@@ -1,4 +1,4 @@
-import Order from "../../models/order";
+import moment from "moment";
 
 export const ADD_ORDER = "ADD_ORDER";
 export const SET_ORDERS = "SET_ORDERS";
@@ -16,18 +16,14 @@ export const fetchOrders = () => {
       }
 
       const resData = await response.json();
-      const loadedOrders = [];
 
-      for (const key in resData) {
-        loadedOrders.push(
-          new Order(
-            key,
-            resData[key].cartItems,
-            resData[key].totalAmount,
-            new Date(resData[key].date)
-          )
-        );
-      }
+      const loadedOrders = Object.keys(resData).map(item => ({
+        id: item,
+        items: resData[item].cartItems,
+        totalAmount: resData[item].totalAmount,
+        date: moment(new Date(resData[item].date)).format("MMMM Do YYYY, hh:mm")
+      }));
+
       dispatch({ type: SET_ORDERS, orders: loadedOrders });
     } catch (err) {
       console.log(err);

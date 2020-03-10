@@ -20,20 +20,17 @@ const CartScreen = props => {
 
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const cartItems = useSelector(state => {
-    const transformedCartItems = [];
-    for (const key in state.cart.items) {
-      transformedCartItems.push({
-        productId: key,
-        productTitle: state.cart.items[key].productTitle,
-        productPrice: state.cart.items[key].productPrice,
-        quantity: state.cart.items[key].quantity,
-        sum: state.cart.items[key].sum
-      });
-    }
-    return transformedCartItems.sort((a, b) =>
-      a.productId > b.productId ? 1 : -1
-    );
+    const items = Object.keys(state.cart.items).map(item => ({
+      productId: item,
+      productTitle: state.cart.items[item].productTitle,
+      productPrice: state.cart.items[item].productPrice,
+      quantity: state.cart.items[item].quantity,
+      sum: state.cart.items[item].sum
+    }));
+
+    return items.sort((a, b) => (a.productId > b.productId ? 1 : -1));
   });
+
   const dispatch = useDispatch();
 
   const sendOrderHandler = async () => {

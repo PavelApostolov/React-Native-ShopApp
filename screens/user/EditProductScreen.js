@@ -41,11 +41,11 @@ const formReducer = (state, action) => {
   return state;
 };
 
-const EditProductScreen = props => {
+const EditProductScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
-  const prodId = props.navigation.getParam("productId");
+  const prodId = navigation.getParam("productId");
   const editedProduct = useSelector(state =>
     state.products.userProducts.find(prod => prod.id === prodId)
   );
@@ -74,12 +74,12 @@ const EditProductScreen = props => {
   }, [error]);
 
   const submitHandler = useCallback(async () => {
-    // if (!formState.formIsValid) {
-    //   Alert.alert("Wrong input!", "Please check the errors in the form.", [
-    //     { text: "Okay" }
-    //   ]);
-    //   return;
-    // }
+    if (!formState.formIsValid) {
+      Alert.alert("Wrong input!", "Please check the errors in the form.", [
+        { text: "Okay" }
+      ]);
+      return;
+    }
     setError(null);
     setIsLoading(true);
     try {
@@ -102,7 +102,7 @@ const EditProductScreen = props => {
           )
         );
       }
-      props.navigation.goBack();
+      navigation.goBack();
     } catch (err) {
       setError(err.message);
     }
@@ -111,7 +111,7 @@ const EditProductScreen = props => {
   }, [dispatch, prodId, formState]);
 
   useEffect(() => {
-    props.navigation.setParams({ submit: submitHandler });
+    navigation.setParams({ submit: submitHandler });
   }, [submitHandler]);
 
   const inputChangeHandler = useCallback(

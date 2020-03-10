@@ -1,5 +1,3 @@
-import Product from "../../models/product";
-
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
 export const CREATE_PRODUCT = "CREATE_PRODUCT";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
@@ -7,7 +5,6 @@ export const SET_PRODUCTS = "SET_PRODUCTS";
 
 export const fetchProducts = () => {
   return async (dispatch, getState) => {
-    // any async code you want!
     const { userId } = getState().auth;
     try {
       const response = await fetch(
@@ -19,20 +16,15 @@ export const fetchProducts = () => {
       }
 
       const resData = await response.json();
-      const loadedProducts = [];
 
-      for (const key in resData) {
-        loadedProducts.push(
-          new Product(
-            key,
-            resData[key].ownerId,
-            resData[key].title,
-            resData[key].imageUrl,
-            resData[key].description,
-            resData[key].price
-          )
-        );
-      }
+      const loadedProducts = Object.keys(resData).map(item => ({
+        id: item,
+        ownerId: resData[item].ownerId,
+        title: resData[item].title,
+        imageUrl: resData[item].imageUrl,
+        description: resData[item].description,
+        price: resData[item].price
+      }));
 
       dispatch({
         type: SET_PRODUCTS,
@@ -65,7 +57,6 @@ export const deleteProduct = productId => {
 
 export const createProduct = (title, description, imageUrl, price) => {
   return async (dispatch, getState) => {
-    // any async code you want!
     const { token } = getState().auth;
     const { userId } = getState().auth;
     const response = await fetch(

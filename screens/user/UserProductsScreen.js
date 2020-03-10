@@ -16,7 +16,7 @@ const UserProductsScreen = props => {
     props.navigation.navigate("EditProduct", { productId: id });
   };
 
-  const deleteHandler = id => {
+  const deleteHandler = id => () => {
     Alert.alert("Are you sure?", "Do you really want to delete this item?", [
       { text: "No", style: "default" },
       {
@@ -60,7 +60,7 @@ const UserProductsScreen = props => {
           <Button
             color={Colors.primary}
             title="Delete"
-            onPress={deleteHandler.bind(this, itemData.item.id)}
+            onPress={deleteHandler(itemData.item.id)}
           />
         </ProductItem>
       )}
