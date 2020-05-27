@@ -7,6 +7,8 @@ The code is based on Maximilian Schwarzmüller course in Udemy with some changes
 It uses Expo starter and some additional libraries, including custom ES Lint config.
 To start the app you will need the Expo application or Android studio emulator.
 
+For the same application but with React Navigation 5 - https://github.com/PavelApostolov/ReactNative-ShopApp-ReactNav5
+
 ```
 Run:
 > npm install
